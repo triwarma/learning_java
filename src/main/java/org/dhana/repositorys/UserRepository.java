@@ -19,7 +19,7 @@ public class UserRepository {
     }
 
     public void save(UserModel user){
-        String sql = "INSERT INTO users (username, password) VALUES (?,?)";
+        String sql = "INSERT INTO user (username, password) VALUES (?,?)";
         try(
                 Connection conn = DriverManager.getConnection(URL_DB,USER_DB,PASS_DB);
                 PreparedStatement ps = conn.prepareStatement(sql);
