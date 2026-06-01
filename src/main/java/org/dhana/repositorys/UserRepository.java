@@ -2,10 +2,7 @@ package org.dhana.repositorys;
 
 import org.dhana.models.UserModel;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserRepository {
     private final String USER_DB;
@@ -29,6 +26,33 @@ public class UserRepository {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public UserModel getUserByUsername (String username) {
+        String sql = "SELECT * FROM users WHERE username = ? LIMIT 1";
+
+        try(
+              Connection conn = DriverManager.getConnection(URL_DB, USER_DB, PASS_DB);
+              PreparedStatement ps = conn.prepareStatement(sql);
+                ){
+            ps.setString(1, username);
+            try (
+                    ResultSet rs = ps.executeQuery();
+                    ){
+                if(rs.next()){
+                    UserModel user = new UserModel();
+                    user.setId(rs.getString("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    return user;
+                }
+                return null;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
             throw new RuntimeException(e);
         }
     }
