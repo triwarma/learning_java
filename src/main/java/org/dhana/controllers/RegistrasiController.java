@@ -21,8 +21,12 @@ public class RegistrasiController extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        System.out.println("ini di akses");
+        req.setAttribute("succes_regis", session.getAttribute("succes_regis"));
+        session.removeAttribute("succes_regis");
         req.getRequestDispatcher("WEB-INF/views/register.jsp").forward(req,resp);
-        System.out.println("Hello");
+
     }
 
 
