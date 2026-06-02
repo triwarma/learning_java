@@ -20,9 +20,11 @@ public class DashboardController extends HttpServlet {
         if(session.getAttribute("has_login")== null){
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
+
         }
         req.getRequestDispatcher("WEB-INF/views/dashboard.jsp").forward(req,resp);
 
     }
+
 
 }
